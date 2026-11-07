@@ -1,4 +1,4 @@
-// Command bm42 is the Bambleweeny-42 emulator proxy: it executes the ROM path
+// Command SubMeson is the Bambleweeny-42 emulator proxy: it executes the ROM path
 // it is handed as a child process and exits with that process's status.
 package main
 
@@ -15,16 +15,16 @@ import (
 // -ldflags "-X main.version=<tag>". "dev" marks a build from source.
 var version = "dev"
 
-const usageText = `bm42 — Bambleweeny-42 emulator proxy
+const usageText = `SubMeson — Bambleweeny-42 emulator proxy
 
 Usage:
-  bm42 [flags] <path-to-rom>
+  SubMeson [flags] <path-to-rom>
 
 Flags:
   -v, --version   print the version and exit
   -h, --help      print this help and exit
 
-bm42 executes the ROM path it is handed and exits with that process's status.
+SubMeson executes the ROM path it is handed and exits with that process's status.
 It has no ROM registry and no extension filter — the frontend owns the
 ROM-to-emulator mapping.
 `
@@ -42,7 +42,7 @@ func run(args []string, stdout, stderr io.Writer) int {
 		if !endOfFlags {
 			switch arg {
 			case "-v", "--version":
-				fmt.Fprintf(stdout, "bm42 %s\n", version)
+				fmt.Fprintf(stdout, "SubMeson %s\n", version)
 				return 0
 			case "-h", "--help":
 				fmt.Fprint(stdout, usageText)
@@ -52,30 +52,33 @@ func run(args []string, stdout, stderr io.Writer) int {
 				continue
 			}
 			if strings.HasPrefix(arg, "-") {
-				fmt.Fprintf(stderr, "bm42: unknown flag %q\n\n", arg)
+				fmt.Fprintf(stderr, "SubMeson: unknown flag %q\n\n", arg)
 				fmt.Fprint(stderr, usageText)
 				return 2
 			}
 		}
 		if rom != "" {
-			fmt.Fprintf(stderr, "bm42: unexpected argument %q\n\n", arg)
+			fmt.Fprintf(stderr, "SubMeson: unexpected argument %q\n\n", arg)
 			fmt.Fprint(stderr, usageText)
 			return 2
 		}
 		rom = arg
 	}
 	if rom == "" {
-		fmt.Fprint(stderr, "bm42: no ROM given\n\n")
+		fmt.Fprint(stderr, "SubMeson: no ROM given\n\n")
 		fmt.Fprint(stderr, usageText)
 		return 2
 	}
 	return launch(rom, stdout, stderr)
 }
 
-// launch hands the path to the OS verbatim, because the frontend already
-// mapped it — any rewriting here would be the registry this build does not have.
+// launch routes .app bundles through open, because exec cannot run a bundle directory.
+// open -W bounds one app and forwards its exit status; plain open returns immediately.
 func launch(rom string, stdout, stderr io.Writer) int {
 	cmd := exec.Command(rom)
+	if info, err := os.Stat(rom); err == nil && info.IsDir() && strings.HasSuffix(rom, ".app") {
+		cmd = exec.Command("open", "-W", rom)
+	}
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = stdout
 	cmd.Stderr = stderr
@@ -88,6 +91,6 @@ func launch(rom string, stdout, stderr io.Writer) int {
 	if errors.As(err, &exitErr) {
 		return exitErr.ExitCode()
 	}
-	fmt.Fprintf(stderr, "bm42: %v\n", err)
+	fmt.Fprintf(stderr, "SubMeson: %v\n", err)
 	return 1
 }
