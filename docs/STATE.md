@@ -28,5 +28,7 @@ EnessToo is a greenfield Go CLI utility that acts as an emulator proxy / passthr
 ### Queued
 | ID | Task | Slice | Gate | Notes |
 |---|---|---|---|---|
-| 2 | ROM passthrough (lookup + execute) | 2 | `go build ./...` + `go vet ./...` | mapping source undecided; see next action |
-| 3 | ROM registry config file reading | 3 | `go build ./...` + `go vet ./...` | **needs re-cut** — the passthrough contract has no registry; confirm what this task is or drop it |
+| 2 | ROM passthrough (execute) | 2 | `go build ./...` + `go vet ./...` | |
+
+Task 3 (ROM registry config file reading) is **dropped** — it contradicts the passthrough
+contract. The queue ends at task 2; the next task is unknown until the operator defines it.

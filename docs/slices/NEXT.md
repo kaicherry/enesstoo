@@ -1,7 +1,7 @@
 ---
 slice: 2
 stateFile: docs/STATE.md
-donotCount: 2
+donotCount: 3
 seededFrom: 40cc398
 reads:
   - docs/slices/NEXT.md
@@ -26,8 +26,9 @@ facts are identity (`-v` / `--version`), extensions (none required), and launch 
 `go build ./...` + `go vet ./...`.
 
 **Closes when:** `go build ./...` and `go vet ./...` are green, task 2 is marked complete
-in `docs/STATE.md`, and the seed for the next task is written and passes
-`babysteps-budget --seed docs/slices/NEXT.md`.
+in `docs/STATE.md`, and the next seed is written and passes
+`babysteps-budget --seed docs/slices/NEXT.md`. The queue ends at task 2, so if no new
+task has been defined, the next seed records the next action as **unknown**.
 
 ## What is settled — do not re-derive
 
@@ -62,10 +63,11 @@ in `docs/STATE.md`, and the seed for the next task is written and passes
 
 ## Do-Not entries that apply here
 
-Total count: 2. Both apply.
+Total count: 3. All apply.
 
 - **1** — a bare `go build` / `go vet` examines nothing at the module root; use `./...`.
 - **2** — a seed without a `PLAN.md` row and `reads:` is refused; price the row before writing the seed.
+- **3** — do not build a ROM registry, name lookup, or extension filter; the frontend owns the mapping.
 
 ## The gate
 
@@ -78,4 +80,5 @@ go vet ./...
 
 Complete task 2 in `docs/STATE.md`, advance the next action, append any new fault to
 `docs/donot.md` after the last entry, write the next seed, and re-verify the Do-Not count
-only went up.
+only went up. The queue ends at task 2: if no new task is defined, the next seed must say
+the next action is unknown rather than inventing one.
