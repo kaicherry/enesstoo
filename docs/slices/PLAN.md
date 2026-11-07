@@ -13,6 +13,7 @@ row here first, never a wider seed.
 |---|---|---|
 | 1 | docs/slices/NEXT.md, docs/donot.md | 6000 |
 | 2 | docs/slices/NEXT.md, docs/donot.md, cmd/bm42/main.go, go.mod, docs/specs/bm42-frontend-contract.md | 12000 |
+| 3 | docs/slices/NEXT.md, docs/donot.md | 3000 |
 
-Later slices get their own row when they are cut. A row is priced against files that exist,
-so the row for slice 3 lands after slice 2 settles the ROM mapping.
+Slice 3 prices only the seed and the Do-Not list because the queue is exhausted: it has no
+work, and a real task gets its reads priced here before its seed is written.
