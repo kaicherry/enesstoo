@@ -2,7 +2,7 @@
 slice: 2
 stateFile: docs/STATE.md
 donotCount: 2
-seededFrom: none (repository not initialized)
+seededFrom: 40cc398
 reads:
   - docs/slices/NEXT.md
   - docs/donot.md
@@ -39,7 +39,7 @@ in `docs/STATE.md`, and the seed for task 3 is written and passes
 - A bare positional argument currently falls through to usage and exits 0 — that is the hole
   this slice fills.
 - The gate is module-wide (`./...`), not bare `go build` (Do-Not 1).
-- The directory is **not a git repository**; nothing has been committed.
+- The repository is initialized on `main`; slice 1 is commit `40cc398`.
 
 ## Withdrawn — proven wrong, do not use
 
