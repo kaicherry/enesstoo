@@ -11,7 +11,7 @@ EnessToo is a greenfield Go CLI utility that acts as an emulator proxy / passthr
 
 ## The next action
 
-**Task 2: ROM passthrough (lookup + execute)** — take a ROM name as a positional argument, resolve it to the binary it maps to, and execute that binary, forwarding its exit status. Gate: `go build ./...` + `go vet ./...`. **Open decision:** the mapping source is not yet specified — Task 3 is registry config reading, so slice 2 must either define the mapping here or wait for Task 3; confirm with the operator before inventing a registry format.
+**Task 2: ROM passthrough (execute)** — `bm42 <path-to-rom>` executes the path it is handed as a child process and forwards its exit status. There is no registry and no extension filter: the frontend owns the ROM-to-emulator mapping. The frontend-facing facts are identity (`-v` / `--version`), extensions (none required), and launch syntax (`bm42 <path-to-rom>`); see `docs/specs/bm42-frontend-contract.md`. Gate: `go build ./...` + `go vet ./...`.
 
 **The Do-Not list is `docs/donot.md`** — 2 entries, append-only. Never dropped, never trimmed.
 
@@ -29,4 +29,4 @@ EnessToo is a greenfield Go CLI utility that acts as an emulator proxy / passthr
 | ID | Task | Slice | Gate | Notes |
 |---|---|---|---|---|
 | 2 | ROM passthrough (lookup + execute) | 2 | `go build ./...` + `go vet ./...` | mapping source undecided; see next action |
-| 3 | ROM registry config file reading | 3 | `go build ./...` + `go vet ./...` | |
+| 3 | ROM registry config file reading | 3 | `go build ./...` + `go vet ./...` | **needs re-cut** — the passthrough contract has no registry; confirm what this task is or drop it |

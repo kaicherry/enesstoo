@@ -8,29 +8,31 @@ reads:
   - docs/donot.md
   - cmd/bm42/main.go
   - go.mod
+  - docs/specs/bm42-frontend-contract.md
 allowanceTokens: 12000
 description: Seed for EnessToo slice 2 — ROM passthrough
 read_if: Running /babysteps-slice for task 2
 ---
 
-# Task 2: ROM passthrough (lookup + execute)
+# Task 2: ROM passthrough (execute)
 
 ## The next action
 
-**Task 2: ROM passthrough (lookup + execute)** — take a ROM name as a positional
-argument, resolve it to the binary it maps to, and execute that binary, forwarding its
-exit status. Gate: `go build ./...` + `go vet ./...`.
-
-**Open decision:** the mapping source is not yet specified — Task 3 is registry config
-reading, so slice 2 must either define the mapping here or wait for Task 3; confirm with
-the operator before inventing a registry format.
+**Task 2: ROM passthrough (execute)** — `bm42 <path-to-rom>` executes the path it is
+handed as a child process and forwards its exit status. There is no registry and no
+extension filter: the frontend owns the ROM-to-emulator mapping. The frontend-facing
+facts are identity (`-v` / `--version`), extensions (none required), and launch syntax
+(`bm42 <path-to-rom>`); see `docs/specs/bm42-frontend-contract.md`. Gate:
+`go build ./...` + `go vet ./...`.
 
 **Closes when:** `go build ./...` and `go vet ./...` are green, task 2 is marked complete
-in `docs/STATE.md`, and the seed for task 3 is written and passes
+in `docs/STATE.md`, and the seed for the next task is written and passes
 `babysteps-budget --seed docs/slices/NEXT.md`.
 
 ## What is settled — do not re-derive
 
+- bm42 is a **passthrough**. The frontend maps ROMs to bm42; bm42 runs the path it is given.
+  There is no internal registry, no name lookup, and no extension filter.
 - Module path is `github.com/kaicherry/enesstoo`; `go.mod` declares `go 1.22`.
 - `cmd/bm42/main.go` is the only product file. It has `main()` → `run(args, stdout, stderr) int`,
   a `version` var (`dev`, replaced with `-ldflags "-X main.version=<tag>"`), and a `usageText` const.
@@ -43,19 +45,20 @@ in `docs/STATE.md`, and the seed for task 3 is written and passes
 
 ## Withdrawn — proven wrong, do not use
 
-- The first state/seed tables listed tasks 2 and 3 as "slice 1". They are separate work units:
-  task 2 is slice 2, task 3 is slice 3.
+- The first state/seed tables listed tasks 2 and 3 as "slice 1". They are separate work units.
+- "The ROM mapping source is undecided" was wrong: the frontend owns the mapping. Do not
+  build a registry, a name-to-binary lookup, or a config reader for one.
 
 ## Code to touch
 
 | File | Change |
 |---|---|
-| `cmd/bm42/main.go` | Accept a ROM name positionally, resolve it to a binary, exec it, forward its exit status |
+| `cmd/bm42/main.go` | Take the ROM path positionally, execute it as a child process, forward its exit status; update `usageText` to `bm42 [flags] <path-to-rom>` |
 | `go.mod` | Unchanged unless a dependency is genuinely required; the slice starts with none |
 
 ## Read these first, and only these
 
-- No specs exist yet. `docs/donot.md` is the only standing reference.
+- `docs/specs/bm42-frontend-contract.md` — the three frontend facts and the invariants.
 
 ## Do-Not entries that apply here
 
@@ -73,6 +76,6 @@ go vet ./...
 
 ## When this slice closes
 
-Complete task 2 in `docs/STATE.md`, advance the next action to task 3, append any new fault
-to `docs/donot.md` after the last entry, write the seed for task 3, and re-verify the Do-Not
-count only went up.
+Complete task 2 in `docs/STATE.md`, advance the next action, append any new fault to
+`docs/donot.md` after the last entry, write the next seed, and re-verify the Do-Not count
+only went up.
