@@ -1,0 +1,8 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcpServers": {
+    "babysteps-mcp": {
+      "command": "/Volumes/ExtremeSSD/EnessToo/.babysteps/bin/babysteps-mcp"
+    }
+  }
+}

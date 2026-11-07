@@ -1,0 +1,14 @@
+{
+  "contextCeilingTokens": 150000,
+  "modelContextLimit": 131072,
+  "costCeilingUSD": 0.65,
+  "stateFile": "docs/STATE.md",
+  "specsLocations": ["docs/"],
+  "scratchDir": "localTmp/",
+  "codeIndexTool": "jcodemunch",
+  "gateCommands": ["go build ./...", "go vet ./..."],
+  "runCommand": "",
+  "reboundaryPaths": [],
+  "rebuildBoundaryPath": "",
+  "newFileRegistration": ""
+}
