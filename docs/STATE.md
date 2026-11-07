@@ -1,5 +1,5 @@
 ---
-description: Work-unit state for EnessToo — Bambleweeny-42 emulator proxy
+description: Work-unit state for EnessToo — Bambleweeny 57 emulator proxy
 read_if: Working on any slice or task
 ---
 
@@ -7,7 +7,7 @@ read_if: Working on any slice or task
 
 ## Where the work is
 
-EnessToo is a greenfield Go CLI utility that acts as an emulator proxy / passthrough launcher. It treats real applications and binaries as "ROMs" in a virtual console called **Bambleweeny-42** (**SubMeson**, formerly `bm42`). The Go service executes the ROM path it is handed — it does not manage ROM registries, metadata, or displays; those are handled by frontends. The darwin distributable is `dist/SubMeson.app` (`dist/SubMeson.dmg`).
+EnessToo is a greenfield Go CLI utility that acts as an emulator proxy / passthrough launcher. It treats real applications and binaries as "ROMs" in a virtual console called **Bambleweeny 57** (**SubMeson**, formerly `bm42`). The Go service executes the ROM path it is handed — it does not manage ROM registries, metadata, or displays; those are handled by frontends. The darwin distributable is `dist/SubMeson.app` (`dist/SubMeson.dmg`).
 
 ## The next action
 

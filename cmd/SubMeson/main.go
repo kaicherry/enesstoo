@@ -1,4 +1,4 @@
-// Command SubMeson is the Bambleweeny-42 emulator proxy: it executes the ROM path
+// Command SubMeson is the Bambleweeny 57 emulator proxy: it executes the ROM path
 // it is handed as a child process and exits with that process's status.
 package main
 
@@ -15,7 +15,7 @@ import (
 // -ldflags "-X main.version=<tag>". "dev" marks a build from source.
 var version = "dev"
 
-const usageText = `SubMeson — Bambleweeny-42 emulator proxy
+const usageText = `SubMeson — Bambleweeny 57 emulator proxy
 
 Usage:
   SubMeson [flags] <path-to-rom>

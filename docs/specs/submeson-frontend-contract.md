@@ -12,7 +12,7 @@ Three facts are all a frontend needs to register SubMeson:
 
 | Fact | Answer |
 |---|---|
-| What the emulator is | `SubMeson` — Bambleweeny-42; version from `-v` / `--version` |
+| What the emulator is | `SubMeson` — Bambleweeny 57; version from `-v` / `--version` |
 | Extensions it requires | none — it accepts any path it is handed |
 | Launch syntax | `SubMeson <path-to-rom>` |
 

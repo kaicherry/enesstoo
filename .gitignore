@@ -2,4 +2,5 @@
 localTmp/
 /SubMeson
 /dist/
+*.syso
 ./.rnsk-memory
