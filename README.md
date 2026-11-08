@@ -26,7 +26,7 @@ Flags:
 - `-h`, `--help` — print usage
 - `--` — end flags
 
-On macs undle paths (`.app` directories) launch via plain `open` (no `-W`), because `exec` cannot run a bundle directory. The path is not rewritten. Plain `open` returns immediately, so `SubMeson` exits when `open` does, not when the app quits.
+On macOS, bundle paths (`.app` directories) launch via plain `open` (no `-W`), because `exec` cannot run a bundle directory. The path is not rewritten. Plain `open` returns immediately, so `SubMeson` exits when `open` does, not when the app quits.
 
 For frontends: launch the binary (e.g. `dist/SubMeson.app/Contents/MacOS/SubMeson`) for exact exit forwarding of plain binaries.
 
@@ -91,8 +91,6 @@ Packaging:
 - `packaging/windows/appicon.ico` (256×256 PNG-in-ICO) embedded via `github.com/akavel/rsrc` temp `.syso` (cleaned on exit)
 
 Unsigned test build.
-
-## Frontend contract
 
 ## Layout
 
