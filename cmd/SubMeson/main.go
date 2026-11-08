@@ -73,11 +73,11 @@ func run(args []string, stdout, stderr io.Writer) int {
 }
 
 // launch routes .app bundles through open, because exec cannot run a bundle directory.
-// open -W bounds one app and forwards its exit status; plain open returns immediately.
+// plain open returns immediately; -W would block the launcher and leave it "always loading".
 func launch(rom string, stdout, stderr io.Writer) int {
 	cmd := exec.Command(rom)
 	if info, err := os.Stat(rom); err == nil && info.IsDir() && strings.HasSuffix(rom, ".app") {
-		cmd = exec.Command("open", "-W", rom)
+		cmd = exec.Command("open", rom)
 	}
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = stdout

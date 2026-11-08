@@ -1,14 +1,18 @@
 # SubMeson — Bambleweeny 57 emulator proxy
 
-A passthrough launcher, not an emulator with a ROM registry.
+A passthrough launcher, not an emulator, created as a simple "proxy console" from "front end" emulator launchers.
+The "use case" is a simple one: many games from older systems are being made into 'recomps' - ports from game systems,
+to "standalone native apps/programs".
 
-`SubMeson` executes the path it is handed and forwards the exit status verbatim. No ROM registry, no name lookup, no extension filter, no rewrite. The frontend owns ROM-to-emulator mapping.
+The *problem* is that front ends associate "roms" with "consoles/systems" - something 'recomps' do not inherently "have".
 
-- Repo dir: `EnessToo`
-- Go module: `github.com/kaicherry/enesstoo`
-- Go: 1.22
-- Third-party dependencies: none
-- Product file: `cmd/SubMeson/main.go` (formerly `bm42`)
+Instead, `SubMeson` is registered as the "emulator" for a "console" (say, an N64 or PSX) and ".exe/.app" (or eny extension you choose)
+is registered as the "rom extension"...allowing your 'recomps" to appear as roms for the system they originally ran on. Like any other
+"rom" when selected via the frontend/launcher, the frontend calls/runs SubMeson, supplied the path to the recomp, and runs it, no need
+for "wrapper scripts" or "config files"...it just works like any other (actual) emulator would.
+
+`SubMeson` executes a path it is handed and forwards the exit status verbatim. 
+No ROM registry, no name lookup, no extension filter, no rewrite. Your frontend owns ROM-to-emulator mapping.
 
 ## Usage
 
@@ -22,9 +26,9 @@ Flags:
 - `-h`, `--help` — print usage
 - `--` — end flags
 
-Bundle paths (`.app` directories) launch via `open -W`, because `exec` cannot run a bundle directory. The path is not rewritten.
+On macs undle paths (`.app` directories) launch via plain `open` (no `-W`), because `exec` cannot run a bundle directory. The path is not rewritten. Plain `open` returns immediately, so `SubMeson` exits when `open` does, not when the app quits.
 
-For frontends: launch the binary (e.g. `dist/SubMeson.app/Contents/MacOS/SubMeson`) for exact exit forwarding. `open -W SubMeson.app --args <path>` waits for GUI apps but cannot reliably capture instant-exit CLI children.
+For frontends: launch the binary (e.g. `dist/SubMeson.app/Contents/MacOS/SubMeson`) for exact exit forwarding of plain binaries.
 
 Exit codes:
 
@@ -52,8 +56,6 @@ go build -o SubMeson ./cmd/SubMeson
 
 ## Distributions
 
-Binaries are gitignored (`/SubMeson`, `/dist/`, `*.syso`, `localTmp/`, `.DS_Store`). Obtain binaries from a GitHub release or build from source.
-
 ### macOS
 
 ```sh
@@ -73,7 +75,6 @@ Packaging:
 - `packaging/darwin/appicon.png` (512×512) → `Contents/Resources/AppIcon.icns` via `sips` / `iconutil`
 - `Contents/PkgInfo` is `APPL????`
 
-Sign / notarize / staple commands use Developer ID Application: Ronin no Sakura Kai Softronics (`MPUGVKL8KJ`) and `xcrun notarytool` / `stapler`. An `impressium` hook may wrap them; exact commands are in the script header.
 
 ### Windows
 
@@ -92,8 +93,6 @@ Packaging:
 Unsigned test build.
 
 ## Frontend contract
-
-See `docs/specs/submeson-frontend-contract.md` for the full frontend contract: emulator identity, no required extensions, launch syntax.
 
 ## Layout
 
